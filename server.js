@@ -20,10 +20,25 @@ const app = express();
 app.use(express.json());  // For parsing application/json
 
 // Enable CORS from your React frontend URL
+const allowedOrigins = [
+  'http://localhost:3000', // For your local development React app
+  'https://frontend-uqag.vercel.app' // Your deployed Vercel frontend URL
+];
+
 app.use(cors({
-  origin: "*",
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl requests, or same-origin requests in some cases)
+    if (!origin) return callback(null, true);
+
+    // Check if the requesting origin is in our allowed list
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  credentials: true // Keep this if your frontend sends cookies/auth headers
 }));
 
 // HTTP request logger for development
