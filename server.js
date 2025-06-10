@@ -21,7 +21,7 @@ app.use(express.json());  // For parsing application/json
 
 // Enable CORS from your React frontend URL
 app.use(cors({
-  origin: "https://frontend-xi-black-rhhyyxri8m.vercel.app",
+  origin: "https://frontend-eems.onrender.com",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
